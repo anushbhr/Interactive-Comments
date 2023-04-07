@@ -72,7 +72,7 @@ const EditDeleteReply = (props) => {
                 <Grid item xs={1}>
                   <Avatar
                     alt="ANNNN"
-                    src="assets/avatars/image-amyrobson.png"
+                    src={new URL(commentData?.user.image.png, import.meta.url)}
                   />
                 </Grid>
                 <Grid item container xs={9} spacing={2}>
