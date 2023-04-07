@@ -76,10 +76,10 @@ const AddReplyCard = (props) => {
               variant="contained"
               size="large"
               disabled={!addReplyInput}
-              style={{ backgroundColor: "#5457b6" }}
+              style={{ backgroundColor: addReplyInput ? "#5457b6" : "" }}
               onClick={handleReplyButton}
             >
-              <Typography fontWeight={"bold"}>Reply</Typography>
+              <Typography fontWeight={"bold"}>SEND</Typography>
             </Button>
           </Grid>
         </Grid>
