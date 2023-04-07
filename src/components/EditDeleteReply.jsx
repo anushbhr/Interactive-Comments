@@ -15,6 +15,7 @@ import { useState } from "react";
 import AddReplyCard from "./AddReplyCard";
 import DeleteComp from "./DeleteComp";
 import EditIcon from "@mui/icons-material/Edit";
+import moment from "moment";
 
 const EditDeleteReply = (props) => {
   const [editHover, setEditHover] = useState(false);
@@ -24,7 +25,7 @@ const EditDeleteReply = (props) => {
   const [isEditable, setIsEditable] = useState(false);
   const [isDeleteEnable, setIsDeleteEnable] = useState(false);
 
-  const { currentUser, commentData, data, setData } = props;
+  const { currentUser, commentData, data, setData, isReplied } = props;
   const [updatedInput, setUpdatedInput] = useState(commentData.content);
 
   const handleUpdatedInputChange = (event) => {
@@ -57,8 +58,8 @@ const EditDeleteReply = (props) => {
       <Card
         style={{
           backgroundColor: "white",
-          width: "40%",
-          padding: "25px",
+          width: "90%",
+          padding: "20px",
         }}
       >
         <Grid container spacing={4}>
@@ -67,105 +68,111 @@ const EditDeleteReply = (props) => {
           </Grid>
           <Grid item xs={10}>
             <Stack spacing={2}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} alignItems={"center"}>
                 <Grid item xs={1}>
                   <Avatar
                     alt="ANNNN"
                     src="assets/avatars/image-amyrobson.png"
                   />
                 </Grid>
-                <Grid item>
-                  <Typography fontWeight={"bold"}>
-                    {commentData?.user?.username}
-                  </Typography>
-                </Grid>
-                {currentUser.username === commentData?.user?.username && (
+                <Grid item container xs={9} spacing={2}>
                   <Grid item>
-                    <Box sx={{ borderRadius: "3px" }}>
-                      <Typography
-                        style={{
-                          color: "#fff",
-                          backgroundColor: "#5457b6",
-                          fontWeight: "bold",
-                          padding: "2px 8px",
-                        }}
-                      >
-                        you
-                      </Typography>
-                    </Box>
+                    <Typography fontWeight={"bold"}>
+                      {commentData?.user?.username}
+                    </Typography>
                   </Grid>
-                )}
-                <Grid item xs={6}>
-                  <Typography style={{ color: "#717682" }}>
-                    42 years ago
-                  </Typography>
+
+                  {currentUser.username === commentData?.user?.username && (
+                    <Grid item>
+                      <Box sx={{ borderRadius: "3px" }}>
+                        <Typography
+                          style={{
+                            color: "#fff",
+                            backgroundColor: "#5457b6",
+                            fontWeight: "bold",
+                            padding: "2px 8px",
+                          }}
+                        >
+                          you
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  )}
+
+                  <Grid item>
+                    <Typography style={{ color: "#717682" }}>
+                      {moment(commentData.createdAt).fromNow() ===
+                      "Invalid date"
+                        ? commentData.createdAt
+                        : moment(commentData.createdAt).fromNow()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Stack direction="row" spacing={2}>
-                    {currentUser.username === commentData?.user?.username ? (
-                      <>
-                        <Button
-                          style={{
-                            color: deleteHover ? "#f28d90" : "#ed6368",
-                            fontWeight: "bold",
-                            backgroundColor: "transparent",
-                          }}
-                          onClick={() => setIsDeleteEnable(true)}
-                          onMouseEnter={() => setDeleteHover(true)}
-                          onMouseLeave={() => setDeleteHover(false)}
-                          startIcon={
-                            <DeleteIcon
-                              style={{
-                                color: deleteHover ? "#f28d90" : "#ed6368",
-                              }}
-                            />
-                          }
-                        >
-                          Delete
-                        </Button>
-                        <Button
-                          style={{
-                            color: editHover ? "#a6a7d9" : "#5357b6",
-                            fontWeight: "bold",
-                            backgroundColor: "transparent",
-                          }}
-                          onClick={() => setIsEditable(true)}
-                          onMouseEnter={() => setEditHover(true)}
-                          onMouseLeave={() => setEditHover(false)}
-                          startIcon={
-                            <EditIcon
-                              style={{
-                                color: editHover ? "#a6a7d9" : "#5357b6",
-                              }}
-                            />
-                          }
-                        >
-                          Edit
-                        </Button>
-                      </>
-                    ) : (
+
+                <Grid item xs={2} container justifyContent={"flex-end"}>
+                  {currentUser.username === commentData?.user?.username ? (
+                    <Stack direction="row" spacing={2}>
                       <Button
                         style={{
-                          color: replyHover ? "#a6a7d9" : "#5357b6",
+                          color: deleteHover ? "#f28d90" : "#ed6368",
                           fontWeight: "bold",
                           backgroundColor: "transparent",
                         }}
-                        disabled={isReply}
-                        onClick={() => setIsReply(true)}
-                        onMouseEnter={() => setReplyHover(true)}
-                        onMouseLeave={() => setReplyHover(false)}
+                        onClick={() => setIsDeleteEnable(true)}
+                        onMouseEnter={() => setDeleteHover(true)}
+                        onMouseLeave={() => setDeleteHover(false)}
                         startIcon={
-                          <ReplyIcon
+                          <DeleteIcon
                             style={{
-                              color: replyHover ? "#a6a7d9" : "#5357b6",
+                              color: deleteHover ? "#f28d90" : "#ed6368",
                             }}
                           />
                         }
                       >
-                        Reply
+                        Delete
                       </Button>
-                    )}
-                  </Stack>
+                      <Button
+                        style={{
+                          color: editHover ? "#a6a7d9" : "#5357b6",
+                          fontWeight: "bold",
+                          backgroundColor: "transparent",
+                        }}
+                        onClick={() => setIsEditable(true)}
+                        onMouseEnter={() => setEditHover(true)}
+                        onMouseLeave={() => setEditHover(false)}
+                        startIcon={
+                          <EditIcon
+                            style={{
+                              color: editHover ? "#a6a7d9" : "#5357b6",
+                            }}
+                          />
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </Stack>
+                  ) : (
+                    <Button
+                      style={{
+                        color: replyHover ? "#a6a7d9" : "#5357b6",
+                        fontWeight: "bold",
+                        backgroundColor: "transparent",
+                      }}
+                      disabled={isReply}
+                      onClick={() => setIsReply(true)}
+                      onMouseEnter={() => setReplyHover(true)}
+                      onMouseLeave={() => setReplyHover(false)}
+                      startIcon={
+                        <ReplyIcon
+                          style={{
+                            color: replyHover ? "#a6a7d9" : "#5357b6",
+                          }}
+                        />
+                      }
+                    >
+                      Reply
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
               {isEditable ? (
@@ -178,14 +185,22 @@ const EditDeleteReply = (props) => {
                     value={updatedInput}
                     onChange={handleUpdatedInputChange}
                   />
-                  <Button
-                    variant="contained"
-                    size="large"
-                    style={{ backgroundColor: "#5457b6" }}
-                    onClick={onUpdateComment}
-                  >
-                    <Typography fontWeight={"bold"}>Update</Typography>
-                  </Button>
+                  <Grid container spacing={2}>
+                    <Grid item xs={10}></Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        disabled={!updatedInput}
+                        style={{
+                          backgroundColor: updatedInput ? "#5457b6" : "",
+                        }}
+                        onClick={onUpdateComment}
+                      >
+                        <Typography fontWeight={"bold"}>Update</Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </>
               ) : (
                 <Typography color={"#67727e"}>{commentData.content}</Typography>
@@ -203,15 +218,25 @@ const EditDeleteReply = (props) => {
         isReply={isReply}
         setIsReply={setIsReply}
       />
-      {commentData.replies?.map((ele) => (
-        <EditDeleteReply
-          key={ele.id}
-          commentData={ele}
-          currentUser={currentUser}
-          data={data}
-          setData={setData}
-        />
-      ))}
+      <div
+        style={{
+          paddingLeft: "80px",
+          display: "flex",
+          gap: "10px",
+          flexDirection: "column",
+        }}
+      >
+        {commentData.replies?.map((ele) => (
+          <EditDeleteReply
+            key={ele.id}
+            commentData={ele}
+            currentUser={currentUser}
+            data={data}
+            setData={setData}
+            isReplied={true}
+          />
+        ))}
+      </div>
       {isDeleteEnable && (
         <DeleteComp
           commentData={commentData}

@@ -41,8 +41,8 @@ const VotesBtn = (props) => {
   return (
     <Stack
       direction="column"
-      justifyContent="flex-start"
-      alignItems="flex-start"
+      justifyContent="center"
+      alignItems="center"
       spacing={0}
       borderRadius={2}
       style={{ backgroundColor: "#f5f6fa" }}

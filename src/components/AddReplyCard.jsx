@@ -41,6 +41,26 @@ const AddReplyCard = (props) => {
           ],
         };
       } else {
+        ele.replies = ele.replies.map((e) => {
+          if (e.id === commentData.id) {
+            return {
+              ...e,
+              replies: [
+                ...e.replies,
+                {
+                  id: Date.now(),
+                  createdAt: new Date(),
+                  score: 0,
+                  replies: [],
+                  content: addReplyInput,
+                  user: currentUser,
+                },
+              ],
+            };
+          } else {
+            return e;
+          }
+        });
         return ele;
       }
     });
@@ -53,8 +73,8 @@ const AddReplyCard = (props) => {
       <Card
         style={{
           backgroundColor: "white",
-          width: "40%",
-          padding: "25px",
+          width: "90%",
+          padding: "20px",
         }}
       >
         <Grid container spacing={3}>
@@ -79,7 +99,7 @@ const AddReplyCard = (props) => {
               style={{ backgroundColor: addReplyInput ? "#5457b6" : "" }}
               onClick={handleReplyButton}
             >
-              <Typography fontWeight={"bold"}>SEND</Typography>
+              <Typography fontWeight={"bold"}>Reply</Typography>
             </Button>
           </Grid>
         </Grid>

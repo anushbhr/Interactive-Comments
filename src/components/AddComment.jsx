@@ -27,7 +27,7 @@ function AddComment(props) {
       score: 0,
       replies: [],
       content: addCommentInput,
-      user: data.currentUser,
+      user: data?.currentUser,
     });
     setData({ ...data, comments: allComments });
   };
@@ -36,13 +36,17 @@ function AddComment(props) {
     <Card
       style={{
         backgroundColor: "white",
-        width: "40%",
-        padding: "25px",
+
+        width: "90%",
+        padding: "20px",
       }}
     >
       <Grid container spacing={3}>
         <Grid item xs={1}>
-          <Avatar alt="ANNNN" src="src/assets/avatars/image-juliusomo.png" />
+          <Avatar
+            alt="ANNNN"
+            src={new URL(data?.currentUser.image.png, import.meta.url)}
+          />
         </Grid>
         <Grid item xs={9}>
           <TextField
@@ -59,7 +63,8 @@ function AddComment(props) {
           <Button
             variant="contained"
             size="large"
-            style={{ backgroundColor: "#5457b6" }}
+            disabled={!addCommentInput}
+            style={{ backgroundColor: addCommentInput ? "#5457b6" : "" }}
             onClick={onAddComment}
           >
             <Typography fontWeight={"bold"}>SEND</Typography>

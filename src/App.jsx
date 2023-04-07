@@ -28,8 +28,14 @@ function App() {
   }, []);
 
   return (
-    <Stack spacing={2} style={{ backgroundColor: "#f5f6fa" }} overflow>
-      {console.log("storedValue", storedValue)}
+    <Stack
+      spacing={2}
+      justifyContent={"center"}
+      alignItems={"center"}
+      paddingY={"56px"}
+      paddingX={"20vw"}
+      width={"50%"}
+    >
       {storedValue &&
         storedValue.comments?.map((ele) => (
           <EditDeleteReply
