@@ -79,7 +79,10 @@ const AddReplyCard = (props) => {
       >
         <Grid container spacing={3}>
           <Grid item xs={1}>
-            <Avatar alt="ANNNN" src="src/assets/avatars/image-juliusomo.png" />
+            <Avatar
+              alt="ANNNN"
+              src={new URL(data?.currentUser.image.png, import.meta.url)}
+            />
           </Grid>
           <Grid item xs={9}>
             <TextField
